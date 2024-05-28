@@ -1114,6 +1114,8 @@ public class HookMain implements IXposedHookLoadPackage {
         XposedHelpers.findAndHookMethod(preview_cb_class, "onPreviewFrame", byte[].class, android.hardware.Camera.class, new XC_MethodHook() {
             @Override
             protected void beforeHookedMethod(MethodHookParam paramd) throws Throwable {
+                // 避免获取到上一次的数据
+                data_buffer = null;
                 Camera localcam = (android.hardware.Camera) paramd.args[1];
                 if (localcam.equals(camera_onPreviewFrame)) {
                     while (data_buffer == null) {
